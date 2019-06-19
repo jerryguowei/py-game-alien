@@ -2,19 +2,23 @@ import pygame
 from settings import Settings
 from ship import Ship
 import game_functions as gf
+from pygame.sprite import Group
+
 
 def run_game():
     pygame.init()
-    ai_setting = Settings()
+    ai_settings = Settings()
     pygame.display.set_caption("Alien Invasion")
-    screen = pygame.display.set_mode((ai_setting.screen_width, ai_setting.screen_height))
+    screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
 
     # Make a ship
-    ship = Ship(ai_setting, screen)
-
+    ship = Ship(ai_settings, screen)
+    bullets = Group()
     while True:
-        gf.check_events(ship)
+        gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
-        gf.update_screen(ai_setting, screen, ship)
+        gf.update_bullets(bullets)
+        gf.update_screen(ai_settings, screen, ship, bullets)
+
 
 run_game()
